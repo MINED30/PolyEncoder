@@ -1,5 +1,9 @@
 class SelectionSequentialTransform(object):
   def __init__(self, tokenizer, max_len=128, max_history=10, pair_last=False):
+    '''
+    데이터셋이 들어오면 모델의 구조에 맞게 Transform시켜줌
+    데이터셋>>토크나이징>>input_ids_list, segment_ids_list, input_masks_list, contexts_masks_list
+    '''
     self.tokenizer = tokenizer
     self.max_len = max_len
     self.max_history = max_history
@@ -49,6 +53,10 @@ class SelectionSequentialTransform(object):
 
 class SelectionJoinTransform(object):
   def __init__(self, tokenizer, max_len=512, max_history=10):
+    '''
+    데이터셋이 들어오면 모델의 구조에 맞게 Transform시켜줌
+    데이터셋>>토크나이징>>input_ids_list, segment_ids_list, input_masks_list
+    '''
     self.tokenizer = tokenizer
     self.max_len = max_len
     self.max_history = max_history
@@ -59,7 +67,7 @@ class SelectionJoinTransform(object):
 
   def __call__(self, texts):
     input_ids_list, segment_ids_list, input_masks_list = [], [], []
-
+    
     for text in texts[::-1][:self.max_history]:  # 优先保证最后一个context的信息量
       tokenized_dict = self.tokenizer.encode_plus(text,
                                                   text_pair=None,

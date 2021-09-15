@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-
+# 그냥 dot attention
 def dot_attention(q, k, v, v_mask=None, dropout=None):
   attention_weights = torch.matmul(q, k.transpose(-1, -2))
   if v_mask is not None:
